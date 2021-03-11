@@ -41,31 +41,38 @@ if ($_POST) {
 }
 ?>
 
+<!--<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>-->
+<script src="https://www.paypal.com/sdk/js?client-id=AQGVTg53rSTFSKhmZR73u17JhKZpr2VZQTwhbvjTiI-0Yht3x4wbeCsGVdFfLUdbKXRlh2cSS00Fb5kQ&currency=USD"> // Replace YOUR_CLIENT_ID with your sandbox client ID
+</script>
+
 <div class="jumbotron text-center">
     <h1 class="display-4">Paso Final</h1>
     <hr class="my-4">
-    <p class="lead">Estas a punto de pagar con Paypal la cantidad de: 
+    <p class="lead text-center">Estas a punto de pagar con Paypal la cantidad de: 
         <h4>$<?php echo number_format($total,2); ?></h4>
-
+    
         <div id="paypal-button-container"></div>
+
     </p>
     <p>Los productos podran ser descargados una vez que se procese el pago<br/>
         <strong>(Para aclaraciones:  jorgedelaguila@gmail.com)</strong>
     </p>
 </div>
 
-<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>
+<?php
+include "templates/pie.php";
+?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Ensures optimal rendering on mobile devices. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> <!-- Optimal Internet Explorer compatibility -->
+  </head>
 
-<head>
-    <!-- Add meta tags for mobile and IE -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title> PayPal Smart Payment Buttons Integration | Responsive Buttons </title>
+  <body>
 
-    <style>
+  <style>
         /* Media query for mobile viewport */
         @media screen and (max-width: 400px) {
             #paypal-button-container {
@@ -79,24 +86,26 @@ if ($_POST) {
                 width: 250px;
             }
         }
-    </style>
-</head>
+</style>
 
-<body>
-    <!-- Set up a container element for the button -->
-    
-
-    <!-- Include the PayPal JavaScript SDK -->
-    
-
+    <!-- Add the checkout buttons, set up the order and approve the order -->
     <script>
-        // Render the PayPal button into #paypal-button-container
-        paypal.Buttons().render('#paypal-button-container');
+      paypal.Buttons({
+        createOrder: function(data, actions) {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: '<?php echo $total;?>'
+              }
+            }]
+          });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            alert('Transaction completed by ' + details.payer.name.given_name);
+          });
+        }
+      }).render('#paypal-button-container'); // Display payment options on your web page
     </script>
-</body>
-
+  </body>
 </html>
-
-<?php
-include "templates/pie.php";
-?>
