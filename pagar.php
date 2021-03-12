@@ -41,7 +41,6 @@ if ($_POST) {
 }
 ?>
 
-<!--<script src="https://www.paypal.com/sdk/js?client-id=sb&currency=USD"></script>-->
 <script src="https://www.paypal.com/sdk/js?client-id=AQGVTg53rSTFSKhmZR73u17JhKZpr2VZQTwhbvjTiI-0Yht3x4wbeCsGVdFfLUdbKXRlh2cSS00Fb5kQ&currency=USD"> // Replace YOUR_CLIENT_ID with your sandbox client ID
 </script>
 
@@ -72,22 +71,6 @@ include "templates/pie.php";
 
   <body>
 
-  <style>
-        /* Media query for mobile viewport */
-        @media screen and (max-width: 400px) {
-            #paypal-button-container {
-                width: 100%;
-            }
-        }
-        
-        /* Media query for desktop viewport */
-        @media screen and (min-width: 400px) {
-            #paypal-button-container {
-                width: 250px;
-            }
-        }
-</style>
-
     <!-- Add the checkout buttons, set up the order and approve the order -->
     <script>
       paypal.Buttons({
@@ -96,13 +79,18 @@ include "templates/pie.php";
             purchase_units: [{
               amount: {
                 value: '<?php echo $total;?>'
-              }
+              },
+              description: 'Compra de productos a la tienda por un valor de $ <?php echo number_format($total); ?> COP ',
+              reference_id: "<?php echo $SID; ?>#<?php echo openssl_encrypt($idVenta,COD,KEY);?>"
             }]
           });
         },
         onApprove: function(data, actions) {
           return actions.order.capture().then(function(details) {
-            alert('Transaction completed by ' + details.payer.name.given_name);
+            alert('Transaccion completada por ' + details.payer.name.given_name);
+            console.log(data);
+            window.location="verificador.php?facilitatorAccessToken="+data.facilitatorAccessToken+"&orderID="+data.orderID+"&payerID="+data.payerID;
+            //window.location="verificador.php?facilitatorAccessToken="+data.facilitatorAccessToken+"&orderID="+data.orderID+"&payerID="+data.payerID
           });
         }
       }).render('#paypal-button-container'); // Display payment options on your web page
