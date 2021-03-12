@@ -39,7 +39,7 @@ if (isset($_POST['btnAccion'])) {
                 break;
             }
 
-            /// SECCION DEL CONATADOR DE PRODUCTOS
+            /// SECCION DEL CONTADOR DE PRODUCTOS
 
             if (!isset($_SESSION['CARRITO'])) {
                 $producto = array('ID' => $ID, 'NOMBRE' => $NOMBRE, 'CANTIDAD' => $CANTIDAD, 'PRECIO' => $PRECIO);
@@ -79,7 +79,7 @@ if (isset($_POST['btnAccion'])) {
         break;
 
         default:
-            # code...
+            
             break;
     }
 }

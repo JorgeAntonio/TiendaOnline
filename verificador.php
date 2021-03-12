@@ -9,9 +9,6 @@ include 'templates/cabecera.php';
 
 //print_r($_GET);
 
-//$ClienteID = "AQGVTg53rSTFSKhmZR73u17JhKZpr2VZQTwhbvjTiI-0Yht3x4wbeCsGVdFfLUdbKXRlh2cSS00Fb5kQ";
-//$Secret = "EPm_FjZNS_6lm59Vp5vaGMUyjmINNdpetVpA5EYHnfa8IO_RtKpoi8L1mWIQZ41-CEqw0bWMktERIHov";
-
     $Login = curl_init(LINKAPI."/v1/oauth2/token");
 
     curl_setopt($Login,CURLOPT_SSL_VERIFYPEER, false);
@@ -31,11 +28,7 @@ include 'templates/cabecera.php';
     //print_r($AccesToken);
 
     $venta = curl_init(LINKAPI."/v2/checkout/orders/".$_GET['orderID']);
-    //".$_GET['paymentID']
-    //https://api-m.sandbox.paypal.com/v2/payments/authorizations/0VF52814937998046 \
-    //https://api.sandbox.paypal.com/v2/checkout/orders/".$_GET['orderID']   ///order opcion 2
-    //https://api-m.sandbox.paypal.com/v2/checkout/orders/".$_GET['orderID']   ///order opcion 2
-    //https://api-m.sandbox.paypal.com/v1/payments/payment/   --- DEPRECATED
+    
     curl_setopt($venta,CURLOPT_HTTPHEADER,array("Content-Type: application/json","Authorization: Bearer ".$AccesToken));
     curl_setopt($venta, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($venta, CURLOPT_POST, false);
