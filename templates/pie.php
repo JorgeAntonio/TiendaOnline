@@ -1,4 +1,4 @@
 </div>
-<div class="col-12 text-center">Develoteca 2018</div>
+<div class="col-12 text-center">Tienda 2020</div>
 </body>
 </html>

@@ -56,7 +56,7 @@ include 'templates/cabecera.php';
 
             <?php } ?>
         </div>
-    </div>
+
 
     <script>
     $(function () {
